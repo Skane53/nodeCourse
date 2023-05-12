@@ -31,6 +31,7 @@ app.get(
   },
   (req, res) => {
     res.send(req.time);
+    return req.time;
   }
 );
 
