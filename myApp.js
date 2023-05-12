@@ -30,8 +30,7 @@ app.get(
     next();
   },
   (req, res) => {
-    res.send(req.time);
-    return req.time;
+    res.send({ time: req.time });
   }
 );
 
