@@ -1,8 +1,8 @@
 /* the 'body' selector is required for the tests to pass */
 /* You can change the style attributes if you want */
 body {
-  background-color: #222;
-  color: #ddd;
+  background-color: black;
+  color: white;
   text-align: center;
   font-family: sans-serif;
 }
@@ -13,4 +13,19 @@ h1 {
 
 input[type=text], label {
   margin-bottom: 8px;
+}
+
+a {
+  color : white;
+}
+
+li {
+  padding: 0.5rem;
+  list-style-type: none;
+}
+
+code {
+  color: black;
+  background-color: white;
+  padding: 0.25rem;
 }

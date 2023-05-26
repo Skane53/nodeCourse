@@ -19,15 +19,14 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-app.get("/json", (req, res) => {
-  if (process.env.MESSAGE_STYLE === "uppercase") {
-    res.send({ message: "HELLO JSON" });
-  } else {
-    res.send({ message: "Hello json" });
-  }
+app.get("/api", (req, res) => {
+  const d = new Date();
+  const dateUTC = d.toUTCString();
+  const datems = d.getTime();
+  return res.send({ unix: datems, utc: dateUTC });
 });
 
-app.get(
+/* app.get(
   "/now",
   (req, res, next) => {
     req.time = new Date().toString();
@@ -37,13 +36,35 @@ app.get(
     res.send({ time: req.time });
   }
 );
+ */
+app.get("/api/:date", (req, res) => {
+  const pattern1 = /^\d{4}-\d{2}-\d{2}$/;
+  const pattern2 = /^-?\d+$/;
+  const { date } = req.params;
+  if (pattern1.test(date)) {
+    console.log("en string");
+    //const [a, b, c] = date.split("-");
+    const d = new Date(date);
+    const dateUTC = d.toUTCString();
+    const datems = d.getTime();
+    if (dateUTC == "Invalid Date") {
+      return res.json({ error: "Invalid Date" });
+    }
+    return res.json({ unix: datems, utc: dateUTC });
+  }
 
-app.get("/:word/echo", (req, res) => {
-  const { word } = req.params;
-  res.json({ echo: word });
+  if (pattern2.test(date)) {
+    console.log("en ms");
+    const d = new Date(Number(date));
+    const dateUTC = d.toUTCString();
+    const datems = d.getTime();
+    return res.json({ unix: datems, utc: dateUTC });
+  }
+
+  res.json({ error: "Invalid Date" });
 });
 
-app.get("/name", (req, res) => {
+/* app.get("/name", (req, res) => {
   const { first, last } = req.query;
   res.json({ name: `${first} ${last}` });
 });
@@ -51,6 +72,6 @@ app.get("/name", (req, res) => {
 app.post("/name", (req, res) => {
   const { first, last } = req.body;
   res.json({ name: `${first} ${last}` });
-});
+}); */
 
 module.exports = app;
