@@ -60,13 +60,18 @@ app.get("/api/:date", (req, res) => {
     const datems = d.getTime();
     return res.json({ unix: datems, utc: dateUTC });
   }
+
   try {
     const d = new Date(date);
     const dateUTC = d.toUTCString();
     const datems = d.getTime();
+    console.log(d, date);
+    if (dateUTC == "Invalid Date") {
+      return res.json({ error: "Invalid Date" });
+    }
     return res.json({ unix: datems, utc: dateUTC });
   } catch (error) {
-    res.json({ error: "Invalid Date" });
+    res.send("ERR");
   }
   res.json({ error: "Invalid Date" });
 });
