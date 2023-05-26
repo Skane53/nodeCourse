@@ -60,7 +60,14 @@ app.get("/api/:date", (req, res) => {
     const datems = d.getTime();
     return res.json({ unix: datems, utc: dateUTC });
   }
-
+  try {
+    const d = new Date(date);
+    const dateUTC = d.toUTCString();
+    const datems = d.getTime();
+    return res.json({ unix: datems, utc: dateUTC });
+  } catch (error) {
+    console.log(error);
+  }
   res.json({ error: "Invalid Date" });
 });
 
